@@ -1,33 +1,47 @@
 "use client"
 
 import { Icon } from "@iconify/react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import SearchDialog from "./SearchDialog"
+import { Button } from "./ui/button"
 
-export default function TopNav() {
-	const [theme, setTheme] = useState("light")
+function ThemeButton() {
+	const [theme, setTheme] = useState("dark")
 
-	const toggleTheme = () => setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
+	const toggleTheme = () => setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"))
 
 	useEffect(() => {
-		document.documentElement.classList.toggle("dark", theme === "dark")
+		document.documentElement.classList.toggle("light", theme === "light")
 	}, [theme])
 
 	return (
-		<nav className="mb-8 flex items-center justify-between p-2 shadow-md">
-			<div className="flex items-center gap-2">
-				<Link className="button" href="/">
-					Home
-				</Link>
-			</div>
+		<Button onClick={toggleTheme} className="button shadow-lg">
+			<Icon icon={theme === "dark" ? "material-symbols:light-mode-rounded" : "material-symbols:dark-mode-rounded"} />
+		</Button>
+	)
+}
 
-			<div className="flex items-center gap-2">
-				<button onClick={toggleTheme} className="button flex h-10 w-10 items-center justify-center">
-					<Icon
-						icon={theme === "light" ? "material-symbols:light-mode-rounded" : "material-symbols:dark-mode-rounded"}
-					/>
-				</button>
+export default function TopNav() {
+	const router = useRouter()
+
+	return (
+		<div className="flex w-full items-center justify-between py-4">
+			<div className="left" />
+			<div className="search-container flex sm:w-fit">
+				<div className="button-group flex items-center gap-1">
+					<SearchDialog />
+					<ThemeButton />
+					<Button
+						onClick={() => {
+							router.push("https://github.com/w11dcard/zephyr")
+						}}
+						className="button shadow-lg"
+					>
+						<Icon icon="simple-icons:github" />
+					</Button>
+				</div>
 			</div>
-		</nav>
+		</div>
 	)
 }

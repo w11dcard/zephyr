@@ -1,5 +1,4 @@
-import Providers from "@/src/components/Providers"
-import TopNav from "@/src/components/TopNav"
+import { GlobalContextProvider } from "@/src/components/GlobalContext"
 import type { Metadata } from "next"
 import "./globals.css"
 
@@ -8,14 +7,13 @@ export const metadata: Metadata = {
 	description: "Next.js Weather Dashboard",
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<body>
-				<Providers>
-					<TopNav />
+				<GlobalContextProvider>
 					<main>{children}</main>
-				</Providers>
+				</GlobalContextProvider>
 			</body>
 		</html>
 	)
